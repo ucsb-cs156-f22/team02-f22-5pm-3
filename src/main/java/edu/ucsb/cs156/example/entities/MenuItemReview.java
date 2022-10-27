@@ -20,7 +20,9 @@ import lombok.Builder;
 public class MenuItemReview {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long itemId;
+  private long id;
+  
+  private long itemId;
   private String reviewerEmail;
   private int stars;
   private LocalDateTime dateReviewed;
