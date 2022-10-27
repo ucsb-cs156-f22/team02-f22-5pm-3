@@ -26,8 +26,8 @@ import javax.validation.Valid;
 
 import java.time.LocalDateTime;
 
-@Api(description = "HelpRequests")
-@RequestMapping("/api/helpRequests")
+@Api(description = "HelpRequest")
+@RequestMapping("/api/HelpRequest")
 @RestController
 @Slf4j
 public class HelpRequestController extends ApiController {
@@ -47,7 +47,7 @@ public class HelpRequestController extends ApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("")
     public HelpRequest getById(
-            @ApiParam("id") @RequestParam Long id) {
+        @ApiParam("id") @RequestParam Long id) {
         HelpRequest helpRequest = helpRequestRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(HelpRequest.class, id));
 
@@ -61,8 +61,9 @@ public class HelpRequestController extends ApiController {
             @ApiParam("requesterEmail") @RequestParam String requesterEmail,
             @ApiParam("teamId") @RequestParam String teamId,
             @ApiParam("tableOrBreakoutRoom") @RequestParam String tableOrBreakoutRoom,
+            @ApiParam("request time (in iso format, e.g. YYYY-mm-ddTHH:MM:SS; see https://en.wikipedia.org/wiki/ISO_8601)") @RequestParam("requestTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime requestTime,
             @ApiParam("explanation") @RequestParam String explanation,
-            @ApiParam("request time (in iso format, e.g. YYYY-mm-ddTHH:MM:SS; see https://en.wikipedia.org/wiki/ISO_8601)") @RequestParam("requestTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime requestTime)
+            @ApiParam("solved") @RequestParam Boolean solved)
             throws JsonProcessingException {
 
         // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -76,7 +77,7 @@ public class HelpRequestController extends ApiController {
         helpRequest.setTableOrBreakoutRoom(tableOrBreakoutRoom);
         helpRequest.setExplanation(explanation);
         helpRequest.setRequestTime(requestTime);
-        helpRequest.setSolved(false);
+        helpRequest.setSolved(solved);
 
         HelpRequest savedHelpRequest = helpRequestRepository.save(helpRequest);
 

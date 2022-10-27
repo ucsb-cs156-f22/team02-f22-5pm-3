@@ -42,40 +42,40 @@ public class HelpRequestControllerTests extends ControllerTestCase {
         @MockBean
         UserRepository userRepository;
 
-        // Authorization tests for /api/helprequests/admin/all
+        // Authorization tests for /api/HelpRequest/admin/all
 
         @Test
         public void logged_out_users_cannot_get_all() throws Exception {
-                mockMvc.perform(get("/api/helprequests/all"))
+                mockMvc.perform(get("/api/HelpRequest/all"))
                                 .andExpect(status().is(403)); // logged out users can't get all
         }
 
         @WithMockUser(roles = { "USER" })
         @Test
         public void logged_in_users_can_get_all() throws Exception {
-                mockMvc.perform(get("/api/helprequests/all"))
+                mockMvc.perform(get("/api/HelpRequest/all"))
                                 .andExpect(status().is(200)); // logged
         }
 
         @Test
         public void logged_out_users_cannot_get_by_id() throws Exception {
-                mockMvc.perform(get("/api/helprequests?id=7"))
+                mockMvc.perform(get("/api/HelpRequest?id=7"))
                                 .andExpect(status().is(403)); // logged out users can't get by id
         }
 
-        // Authorization tests for /api/helprequests/post
+        // Authorization tests for /api/HelpRequest/post
         // (Perhaps should also have these for put and delete)
 
         @Test
         public void logged_out_users_cannot_post() throws Exception {
-                mockMvc.perform(post("/api/helprequests/post"))
+                mockMvc.perform(post("/api/HelpRequest/post"))
                                 .andExpect(status().is(403));
         }
 
         @WithMockUser(roles = { "USER" })
         @Test
         public void logged_in_regular_users_cannot_post() throws Exception {
-                mockMvc.perform(post("/api/helprequests/post"))
+                mockMvc.perform(post("/api/HelpRequest/post"))
                                 .andExpect(status().is(403)); // only admins can post
         }
 
@@ -86,13 +86,13 @@ public class HelpRequestControllerTests extends ControllerTestCase {
         public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
 
                 // arrange
-                LocalDateTime ldt = LocalDateTime.parse("2022-01-03T00:00:00");
+                LocalDateTime requestTime = LocalDateTime.parse("2022-01-03T00:00:00");
 
                 HelpRequest helpRequest = HelpRequest.builder()
                                 .requesterEmail("cgaucho@ucsb.edu")
                                 .teamId("2")
                                 .tableOrBreakoutRoom("7")
-                                .requestTime(ldt)
+                                .requestTime(requestTime)
                                 .explanation("some explanation here")
                                 .solved(false)
                                 .build();
@@ -100,7 +100,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                 when(helpRequestRepository.findById(eq(7L))).thenReturn(Optional.of(helpRequest));
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/helprequests?id=7"))
+                MvcResult response = mockMvc.perform(get("/api/HelpRequest?id=7"))
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
@@ -120,7 +120,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                 when(helpRequestRepository.findById(eq(7L))).thenReturn(Optional.empty());
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/helprequests?id=7"))
+                MvcResult response = mockMvc.perform(get("/api/HelpRequest?id=7"))
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
@@ -164,7 +164,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                 when(helpRequestRepository.findAll()).thenReturn(expectedDates);
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/helprequests/all"))
+                MvcResult response = mockMvc.perform(get("/api/HelpRequest/all"))
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
@@ -195,7 +195,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/helprequests/post?name=firstDayOfClasses&quarterYYYYQ=20222&localDateTime=2022-01-03T00:00:00")
+                                post("/api/HelpRequest/post?requesterEmail=asmith@ucsb.edu&teamId=2&tableOrBreakoutRoom=8&requestTime=2022-01-03T00:00:00&explanation=some explanation here&solved=false")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -226,7 +226,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                delete("/api/helprequests?id=15")
+                                delete("/api/HelpRequest?id=15")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -248,7 +248,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                delete("/api/helprequests?id=15")
+                                delete("/api/HelpRequest?id=15")
                                                 .with(csrf()))
                                 .andExpect(status().isNotFound()).andReturn();
 
@@ -260,14 +260,14 @@ public class HelpRequestControllerTests extends ControllerTestCase {
 
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void admin_can_edit_an_existing_HelpRequest() throws Exception {
+        public void admin_can_edit_an_existing_helprequest() throws Exception {
                 // arrange
 
                 LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
                 LocalDateTime ldt2 = LocalDateTime.parse("2023-01-03T00:00:00");
 
                 HelpRequest helpRequestOrig = HelpRequest.builder()
-                               .requesterEmail("asmith@ucsb.edu")
+                                .requesterEmail("asmith@ucsb.edu")
                                 .teamId("2")
                                 .tableOrBreakoutRoom("8")
                                 .requestTime(ldt1)
@@ -277,11 +277,11 @@ public class HelpRequestControllerTests extends ControllerTestCase {
 
                 HelpRequest helpRequestEdited = HelpRequest.builder()
                                 .requesterEmail("cgaucho@ucsb.edu")
-                                .teamId("2")
-                                .tableOrBreakoutRoom("8")
+                                .teamId("21")
+                                .tableOrBreakoutRoom("82")
                                 .requestTime(ldt2)
-                                .explanation("some explanation here")
-                                .solved(false)
+                                .explanation("some explanation hereee")
+                                .solved(true)
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(helpRequestEdited);
@@ -290,7 +290,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                put("/apihelprequests?id=67")
+                                put("/api/HelpRequest?id=67")
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .characterEncoding("utf-8")
                                                 .content(requestBody)
@@ -326,7 +326,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                put("/api/helprequests?id=67")
+                                put("/api/HelpRequest?id=67")
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .characterEncoding("utf-8")
                                                 .content(requestBody)
