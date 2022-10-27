@@ -24,7 +24,7 @@ public class Article {
 
   private String title;
   private String url;
-  private boolean explanation;
-  private boolean email;
+  private String explanation;
+  private String email;
   private LocalDateTime dateAdded;
 }
