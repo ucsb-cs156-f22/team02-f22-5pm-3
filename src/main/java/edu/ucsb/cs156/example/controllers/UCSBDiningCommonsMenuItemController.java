@@ -1,10 +1,8 @@
 package edu.ucsb.cs156.example.controllers;
 
-import edu.ucsb.cs156.example.entities.UCSBDiningCommons;
 import edu.ucsb.cs156.example.entities.UCSBDiningCommonsMenuItem;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
 import edu.ucsb.cs156.example.repositories.UCSBDiningCommonsMenuItemRepository;
-import edu.ucsb.cs156.example.repositories.UCSBDiningCommonsRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -23,11 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+
 @Api(description= "UCSBDiningCommonsMenuItem")
 @RequestMapping("/api/ucsbdingingcommonsmenuitem")
 @RestController
 @Slf4j
-public class UCSBDiningCommonsMenuItemController {
+public class UCSBDiningCommonsMenuItemController extends ApiController {
 	
 	@Autowired
 	UCSBDiningCommonsMenuItemRepository ucsbDiningCommonsMenuItemRepository;
@@ -70,13 +69,39 @@ public class UCSBDiningCommonsMenuItemController {
 		return savedMenuItem;
 	}
 
+	@ApiOperation(value = "Delete a UCSBDiningCommonsMenuItem")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+	@DeleteMapping("")
+	public Object deleteMenuItem (
+		@ApiParam("id")
+		@RequestParam Long id) {
+		
+		UCSBDiningCommonsMenuItem menuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
+			.orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+	
+		ucsbDiningCommonsMenuItemRepository.delete(menuItem);
+        return genericMessage("UCSBDiningCommonsMenuItem with id %s deleted".formatted(id));
+	
+	}
 
+	@ApiOperation(value = "Update a single menu item")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+	@PutMapping("")
+	public UCSBDiningCommonsMenuItem updateMenuItem(
+		@ApiParam("id")
+		@RequestParam Long id,
+		@RequestBody
+		@Valid UCSBDiningCommonsMenuItem incoming) {
+
+		UCSBDiningCommonsMenuItem menuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
+			.orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+
+		menuItem.setDiningCommonsCode(incoming.getDiningCommonsCode());
+		menuItem.setName(incoming.getName());
+		menuItem.setStation(incoming.getStation());
+
+		ucsbDiningCommonsMenuItemRepository.save(menuItem);
+
+		return menuItem;
+	}
 }
-
-/*
- * private long id;
-
-	private String diningCommonsCode;
-	private String name;
-	private String station;
- */
