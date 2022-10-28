@@ -50,6 +50,27 @@ public class UCSBDiningCommonsMenuItemController {
 		return menuItem;
 	}
 
+	@ApiOperation(value = "Create a new dining commons menu item")
+	@PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/post")
+	public UCSBDiningCommonsMenuItem postMenuItem(
+		@ApiParam("id") @RequestParam Long id,
+		@ApiParam("diningCommonsCode") @RequestParam String diningCommonsCode,
+		@ApiParam("name") @RequestParam String name,
+		@ApiParam("station") @RequestParam String station) {
+
+		UCSBDiningCommonsMenuItem menuItem = new UCSBDiningCommonsMenuItem();
+		menuItem.setId(id);
+		menuItem.setDiningCommonsCode(diningCommonsCode);
+		menuItem.setName(name);
+		menuItem.setStation(station);
+
+		UCSBDiningCommonsMenuItem savedMenuItem = ucsbDiningCommonsMenuItemRepository.save(menuItem);
+
+		return savedMenuItem;
+	}
+
+
 }
 
 /*
