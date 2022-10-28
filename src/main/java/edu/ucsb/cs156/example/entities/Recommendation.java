@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,6 +19,8 @@ import lombok.Builder;
 @Entity(name = "recommendation")
 public class Recommendation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private long id;
     private String requesterEmail;
     private String professorEmail;
