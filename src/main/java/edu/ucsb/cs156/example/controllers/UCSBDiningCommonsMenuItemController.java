@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 
-@Api(description= "UCSBDiningCommonsMenuItem")
+@Api(description = "UCSBDiningCommonsMenuItem")
 @RequestMapping("/api/ucsbdingingcommonsmenuitem")
 @RestController
 @Slf4j
@@ -42,7 +42,9 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
 	@ApiOperation(value = "Get a single dining commons menu item")
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("")
-	public UCSBDiningCommonsMenuItem getById( @ApiParam("code") @RequestParam Long id) {
+	public UCSBDiningCommonsMenuItem getById( 
+		@ApiParam("code") @RequestParam Long id) {
+		
 		UCSBDiningCommonsMenuItem menuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
 			.orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
 		
@@ -50,7 +52,7 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
 	}
 
 	@ApiOperation(value = "Create a new dining commons menu item")
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
 	public UCSBDiningCommonsMenuItem postMenuItem(
 		@ApiParam("id") @RequestParam Long id,
@@ -73,8 +75,7 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping("")
 	public Object deleteMenuItem (
-		@ApiParam("id")
-		@RequestParam Long id) {
+		@ApiParam("id") @RequestParam Long id) {
 		
 		UCSBDiningCommonsMenuItem menuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
 			.orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
@@ -88,10 +89,8 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping("")
 	public UCSBDiningCommonsMenuItem updateMenuItem(
-		@ApiParam("id")
-		@RequestParam Long id,
-		@RequestBody
-		@Valid UCSBDiningCommonsMenuItem incoming) {
+		@ApiParam("id") @RequestParam Long id,
+		@RequestBody @Valid UCSBDiningCommonsMenuItem incoming) {
 
 		UCSBDiningCommonsMenuItem menuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
 			.orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
