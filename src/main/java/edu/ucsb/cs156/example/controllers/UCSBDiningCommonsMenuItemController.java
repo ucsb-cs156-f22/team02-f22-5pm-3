@@ -23,7 +23,7 @@ import javax.validation.Valid;
 
 
 @Api(description = "UCSBDiningCommonsMenuItem")
-@RequestMapping("/api/ucsbdingingcommonsmenuitem")
+@RequestMapping("/api/ucsbdiningcommonsmenuitem")
 @RestController
 @Slf4j
 public class UCSBDiningCommonsMenuItemController extends ApiController {
@@ -55,13 +55,13 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
 	public UCSBDiningCommonsMenuItem postMenuItem(
-		@ApiParam("id") @RequestParam Long id,
+		//@ApiParam("id") @RequestParam Long id,
 		@ApiParam("diningCommonsCode") @RequestParam String diningCommonsCode,
 		@ApiParam("name") @RequestParam String name,
 		@ApiParam("station") @RequestParam String station) {
 
 		UCSBDiningCommonsMenuItem menuItem = new UCSBDiningCommonsMenuItem();
-		menuItem.setId(id);
+		//menuItem.setId(id);
 		menuItem.setDiningCommonsCode(diningCommonsCode);
 		menuItem.setName(name);
 		menuItem.setStation(station);
