@@ -57,7 +57,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
         @Test
         public void logged_out_users_cannot_get_by_id() throws Exception {
-                mockMvc.perform(get("/api/UCSBOrganization?orgCode=POINT"))
+                mockMvc.perform(get("/api/UCSBOrganization?id=POINT"))
                                 .andExpect(status().is(403)); // logged out users can't get by id
         }
 
@@ -86,7 +86,6 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 // arrange
 
                 UCSBOrganization orgs = UCSBOrganization.builder()
-                                .orgCode("POINT")
                                 .orgTranslationShort("POINT (Physics)")
                                 .orgTranslation("Physics Organization for Innovation and Technology")
                                 .inactive(false)
@@ -95,7 +94,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 when(ucsbOrganizationRepository.findById(eq("POINT"))).thenReturn(Optional.of(orgs));
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/UCSBOrganization?orgCode=POINT"))
+                MvcResult response = mockMvc.perform(get("/api/UCSBOrganization?id=POINT"))
                                 .andExpect(status().isOk()).andReturn();
 
                 // assert
@@ -115,7 +114,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 when(ucsbOrganizationRepository.findById(eq("VRL"))).thenReturn(Optional.empty());
 
                 // act
-                MvcResult response = mockMvc.perform(get("/api/UCSBOrganization?orgCode=VRL"))
+                MvcResult response = mockMvc.perform(get("/api/UCSBOrganization?id=VRL"))
                                 .andExpect(status().isNotFound()).andReturn();
 
                 // assert
@@ -133,14 +132,12 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 // arrange
 
                 UCSBOrganization point = UCSBOrganization.builder()
-                                .orgCode("POINT")
                                 .orgTranslationShort("POINT (Technology)")
                                 .orgTranslation("Physics Organization for Innovation and Technology")
                                 .inactive(true)
                                 .build();
 
                 UCSBOrganization vrl = UCSBOrganization.builder()
-                                .orgCode("VRL")
                                 .orgTranslationShort("Virl")
                                 .orgTranslation("Vision Research Laboratory")
                                 .inactive(false)
@@ -169,7 +166,6 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 // arrange
 
                 UCSBOrganization dsclub = UCSBOrganization.builder()
-                                .orgCode("DSC")
                                 .orgTranslationShort("DS Club")
                                 .orgTranslation("Data Science Club")
                                 .inactive(true)
@@ -179,7 +175,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/UCSBOrganization/post?orgCode=DSC&orgTranslationShort=DS Club&orgTranslation=Data Science Club&inactive=true")
+                                post("/api/UCSBOrganization/post?orgTranslationShort=DS Club&orgTranslation=Data Science Club&inactive=true")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -196,7 +192,6 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 // arrange
 
                 UCSBOrganization boardgame = UCSBOrganization.builder()
-                                .orgCode("BGC")
                                 .orgTranslationShort("BG Club")
                                 .orgTranslation("Board Game Club")
                                 .inactive(true)
@@ -206,7 +201,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                delete("/api/UCSBOrganization?orgCode=BGC")
+                                delete("/api/UCSBOrganization?id=BGC")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -228,7 +223,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                delete("/api/UCSBOrganization?orgCode=iphone-users")
+                                delete("/api/UCSBOrganization?id=iphone-users")
                                                 .with(csrf()))
                                 .andExpect(status().isNotFound()).andReturn();
 
@@ -244,14 +239,12 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 // arrange
 
                 UCSBOrganization facultyOrig = UCSBOrganization.builder()
-                                .orgCode("fac")
                                 .orgTranslationShort("faculty")
                                 .orgTranslation("Faculty Workers Only")
                                 .inactive(false)
                                 .build();
 
                 UCSBOrganization facultyEdited = UCSBOrganization.builder()
-                                .orgCode("facnstu")
                                 .orgTranslationShort("faculty & students")
                                 .orgTranslation("Faculty and Student Workers")
                                 .inactive(true)
@@ -263,7 +256,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                put("/api/UCSBOrganization?orgCode=fac")
+                                put("/api/UCSBOrganization?id=fac")
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .characterEncoding("utf-8")
                                                 .content(requestBody)
@@ -283,7 +276,6 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 // arrange
 
                 UCSBOrganization editedOrgs = UCSBOrganization.builder()
-                                .orgCode("FM")
                                 .orgTranslationShort("F. Machines")
                                 .orgTranslation("Fast Machines")
                                 .inactive(true)
@@ -295,7 +287,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                put("/api/UCSBOrganization?orgCode=FM")
+                                put("/api/UCSBOrganization?id=FM")
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                 .characterEncoding("utf-8")
                                                 .content(requestBody)
