@@ -86,6 +86,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 // arrange
 
                 UCSBOrganization orgs = UCSBOrganization.builder()
+                                .orgCode("POINT")
                                 .orgTranslationShort("POINT (Physics)")
                                 .orgTranslation("Physics Organization for Innovation and Technology")
                                 .inactive(false)
@@ -132,6 +133,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 // arrange
 
                 UCSBOrganization point = UCSBOrganization.builder()
+                                .orgCode("POINT T")
                                 .orgTranslationShort("POINT (Technology)")
                                 .orgTranslation("Physics Organization for Innovation and Technology")
                                 .inactive(true)
@@ -166,6 +168,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 // arrange
 
                 UCSBOrganization dsclub = UCSBOrganization.builder()
+                                .orgCode("DSC")
                                 .orgTranslationShort("DS Club")
                                 .orgTranslation("Data Science Club")
                                 .inactive(true)
@@ -175,7 +178,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/UCSBOrganization/post?orgTranslationShort=DS Club&orgTranslation=Data Science Club&inactive=true")
+                                post("/api/UCSBOrganization/post?orgCode=DSC&orgTranslationShort=DS Club&orgTranslation=Data Science Club&inactive=true")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -192,6 +195,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 // arrange
 
                 UCSBOrganization boardgame = UCSBOrganization.builder()
+                                .orgCode("BGC")
                                 .orgTranslationShort("BG Club")
                                 .orgTranslation("Board Game Club")
                                 .inactive(true)
@@ -239,12 +243,14 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 // arrange
 
                 UCSBOrganization facultyOrig = UCSBOrganization.builder()
+                                .orgCode("fac")
                                 .orgTranslationShort("faculty")
                                 .orgTranslation("Faculty Workers Only")
                                 .inactive(false)
                                 .build();
 
                 UCSBOrganization facultyEdited = UCSBOrganization.builder()
+                                .orgCode("fac")
                                 .orgTranslationShort("faculty & students")
                                 .orgTranslation("Faculty and Student Workers")
                                 .inactive(true)
@@ -276,6 +282,7 @@ public class UCSBOrganizationControllerTests extends ControllerTestCase {
                 // arrange
 
                 UCSBOrganization editedOrgs = UCSBOrganization.builder()
+                                .orgCode("FM")
                                 .orgTranslationShort("F. Machines")
                                 .orgTranslation("Fast Machines")
                                 .inactive(true)
