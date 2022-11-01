@@ -43,7 +43,7 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("")
 	public UCSBDiningCommonsMenuItem getById( 
-		@ApiParam("code") @RequestParam Long id) {
+		@ApiParam("id") @RequestParam Long id) {
 		
 		UCSBDiningCommonsMenuItem menuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
 			.orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
@@ -55,13 +55,11 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/post")
 	public UCSBDiningCommonsMenuItem postMenuItem(
-		//@ApiParam("id") @RequestParam Long id,
-		@ApiParam("diningCommonsCode") @RequestParam String diningCommonsCode,
-		@ApiParam("name") @RequestParam String name,
+		@ApiParam("location (e.g. Portola)") @RequestParam String diningCommonsCode,
+		@ApiParam("name of dish") @RequestParam String name,
 		@ApiParam("station") @RequestParam String station) {
 
 		UCSBDiningCommonsMenuItem menuItem = new UCSBDiningCommonsMenuItem();
-		//menuItem.setId(id);
 		menuItem.setDiningCommonsCode(diningCommonsCode);
 		menuItem.setName(name);
 		menuItem.setStation(station);
@@ -71,7 +69,7 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
 		return savedMenuItem;
 	}
 
-	@ApiOperation(value = "Delete a UCSBDiningCommonsMenuItem")
+	@ApiOperation(value = "Delete a dining commons menu item")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping("")
 	public Object deleteMenuItem (
@@ -85,7 +83,7 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
 	
 	}
 
-	@ApiOperation(value = "Update a single menu item")
+	@ApiOperation(value = "Update a single dining commons menu item")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping("")
 	public UCSBDiningCommonsMenuItem updateMenuItem(
