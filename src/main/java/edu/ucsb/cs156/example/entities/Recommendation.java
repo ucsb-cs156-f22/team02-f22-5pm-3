@@ -20,7 +20,6 @@ import javax.persistence.GeneratedValue;
 public class Recommendation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private long id;
     private String requesterEmail;
     private String professorEmail;
