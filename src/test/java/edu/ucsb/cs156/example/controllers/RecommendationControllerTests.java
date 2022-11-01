@@ -189,14 +189,14 @@ public class RecommendationControllerTests extends ControllerTestCase {
                                 .explanation("For grad school")
                                 .dateRequested(ldt1)
                                 .dateNeeded(ldt1)
-                                .done(false)
+                                .done(true)
                                 .build();
 
                 when(recommendationRepository.save(eq(recommendation1))).thenReturn(recommendation1);
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/Recommendation/post?requesterEmail=studentEmail&professorEmail=profEmail&explanation=For grad school&dateRequested=2022-01-03T00:00:00&dateNeeded=2022-01-03T00:00:00&done=false")
+                                post("/api/Recommendation/post?requesterEmail=studentEmail&professorEmail=profEmail&explanation=For grad school&dateRequested=2022-01-03T00:00:00&dateNeeded=2022-01-03T00:00:00&done=true")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -278,12 +278,12 @@ public class RecommendationControllerTests extends ControllerTestCase {
 
 
                 Recommendation recommendationDateEdited = Recommendation.builder()
-                                .requesterEmail("studentEmail")
-                                .professorEmail("profEmail")
-                                .explanation("For grad school")
+                                .requesterEmail("studentEmailNew")
+                                .professorEmail("profEmailNew")
+                                .explanation("For grad school new")
                                 .dateRequested(ldt2)
                                 .dateNeeded(ldt2)
-                                .done(false)
+                                .done(true)
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(recommendationDateEdited);
