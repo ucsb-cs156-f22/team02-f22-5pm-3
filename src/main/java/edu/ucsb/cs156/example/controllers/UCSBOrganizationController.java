@@ -23,7 +23,7 @@ import javax.validation.Valid;
 
 
 @Api(description = "UCSBOrganization")
-@RequestMapping("/api/ucsborganization")
+@RequestMapping("/api/UCSBOrganization")
 @RestController
 @Slf4j
 public class UCSBOrganizationController extends ApiController {
