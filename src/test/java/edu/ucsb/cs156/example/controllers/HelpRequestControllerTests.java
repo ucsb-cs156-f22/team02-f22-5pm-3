@@ -155,7 +155,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .tableOrBreakoutRoom("8")
                                 .requestTime(ldt2)
                                 .explanation("some explanation here")
-                                .solved(false)
+                                .solved(true)
                                 .build();
 
                 ArrayList<HelpRequest> expectedDates = new ArrayList<>();
@@ -188,14 +188,14 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .tableOrBreakoutRoom("8")
                                 .requestTime(ldt1)
                                 .explanation("some explanation here")
-                                .solved(false)
+                                .solved(true)
                                 .build();
 
                 when(helpRequestRepository.save(eq(helpRequest1))).thenReturn(helpRequest1);
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/HelpRequest/post?requesterEmail=asmith@ucsb.edu&teamId=2&tableOrBreakoutRoom=8&requestTime=2022-01-03T00:00:00&explanation=some explanation here&solved=false")
+                                post("/api/HelpRequest/post?requesterEmail=asmith@ucsb.edu&teamId=2&tableOrBreakoutRoom=8&requestTime=2022-01-03T00:00:00&explanation=some explanation here&solved=true")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
